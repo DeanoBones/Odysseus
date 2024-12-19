@@ -1,0 +1,109 @@
+body {
+    background-color: black;
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    height: 100vh;
+}
+
+.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+canvas {
+    border: 2px solid lime;
+    margin-top: 20px;
+}
+
+#frequencyInput {
+    margin-top: 30px;
+    width: 80%;
+    height: 20px;
+    background-color: lime;
+    appearance: none;
+    border-radius: 5px;
+}
+
+#frequencyInput::-webkit-slider-thumb {
+    width: 20px;
+    height: 20px;
+    background-color: lime;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+#submit-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+#message {
+    margin-top: 20px;
+    font-size: 1.5rem;
+}
+
+#frequencyDisplay {
+    font-weight: bold;
+    color: lime;
+}
+
+/* Style for the frequencies list, displayed horizontally */
+#frequencyList {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    gap: 15px; /* Space between frequency items */
+}
+
+#frequencyList li {
+    background-color: lime;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    color: black;
+}
+
+/* Style for password section */
+#passwordSection {
+    margin-top: 20px;
+    display: block;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 400px;
+    margin: 20px auto;
+    text-align: center;
+}
+
+#passwordInput {
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid lime;
+    color: lime;
+    background-color: transparent;
+}
+
+#passwordSubmit {
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: lime;
+    color: black;
+}
+
+#passwordMessage {
+    margin-top: 20px;
+    font-size: 1.2rem;
+}

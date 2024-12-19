@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oscilloscope Frequency Input</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Oscilloscope Frequency</h2>
+        <canvas id="oscilloscope" width="600" height="300"></canvas>
+        <p>Frequency: <span id="frequencyDisplay">400</span> Hz</p>
+        <input type="range" id="frequencyInput" min="10" max="2600" value="400" step="10">
+        <button id="submit-btn">Submit Frequency</button>
+        <p id="message"></p>
+
+        <!-- Frequency List (Horizontal) -->
+        <ul id="frequencyList"></ul>
+
+        <!-- Password Input -->
+        <div id="passwordSection" style="display: none;">
+            <p>Enter the password:</p>
+            <input type="password" id="passwordInput" placeholder="Enter password">
+            <button id="passwordSubmit">Submit Password</button>
+            <p id="passwordMessage"></p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
