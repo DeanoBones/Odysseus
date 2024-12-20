@@ -15,70 +15,27 @@ const width = canvas.width;
 const height = canvas.height;
 let frequency = frequencyInput.value;
 
-// Frequency Mapping for "Luminara"
+// Frequency Mapping for flash effect
 const frequencyMap = {
-    1200: 1,    // L
-    2100: 2,    // U
-    1300: 3,    // M
-    900: 4,     // I
-    1400: 5,    // N
-    100: 6,     // A
-    1800: 7,    // R
+    1200: 1,
+    2100: 2,
+    1300: 3,
+    900: 4,
+    1400: 5,
+    100: 6,
 };
 
-// The correct order of frequencies for the "Luminara" word
-const correctOrder = [1200, 2100, 1300, 900, 1400, 100, 1800];
+// The correct order for the initial broadcast
+const correctBroadcast = [1200, 2100, 1300, 900, 1400, 100];
 
-// Array to store the frequencies selected by the user
+// New frequencies to display upon success
+const receivedFrequencies = [2000, 1800, 1500, 1000, 100, 1400];
+
+// User-entered sequence
 let currentOrder = [];
-let previousFrequency = null; // Track the previous frequency
+let previousFrequency = null;
 
-// Function to trigger pulse and vibration on the oscilloscope (canvas)
-function pulseOscilloscope() {
-    // Vibration effect
-    let position = 0;
-    const shakeDuration = 300; // Duration of the shake in milliseconds
-    const shakeDistance = 10;  // How far the canvas will shake
-    const shakeInterval = 50;  // Time interval between shakes
-    const shakeStartTime = Date.now();
-
-    const shakeIntervalId = setInterval(() => {
-        position = position === 0 ? shakeDistance : 0;
-        canvas.style.transform = `translateX(${position}px)`;
-
-        // Stop the shake after the shake duration
-        if (Date.now() - shakeStartTime > shakeDuration) {
-            clearInterval(shakeIntervalId);
-            canvas.style.transform = 'translateX(0)';
-        }
-    }, shakeInterval);
-
-    // Blue pulse with reduced opacity
-    canvas.style.transition = "background-color 0.3s ease";
-    canvas.style.backgroundColor = 'rgba(0, 0, 255, 0.1)'; // Blue with less opacity
-    setTimeout(() => {
-        canvas.style.backgroundColor = 'black'; // Reset to black after the pulse
-    }, 300); // Pulse duration
-}
-
-// Function to handle flashing based on correct frequency
-function handleFrequencyFlash(frequency) {
-    if (frequencyMap[frequency] !== undefined && frequency !== previousFrequency) {
-        const flashCount = frequencyMap[frequency];
-        for (let i = 0; i < flashCount; i++) {
-            setTimeout(() => {
-                if (frequencyInput.value == frequency) {
-                    pulseOscilloscope();
-                }
-            }, i * 1000); // Adjust the delay to control frequency of vibration and flash
-        }
-        previousFrequency = frequency;
-    } else if (frequency !== previousFrequency) {
-        previousFrequency = null;
-    }
-}
-
-// Draw the wave (oscilloscope pattern)
+// Draw oscilloscope wave
 function drawWave(frequency) {
     ctx.clearRect(0, 0, width, height);
     ctx.beginPath();
@@ -102,15 +59,83 @@ function drawWave(frequency) {
     ctx.stroke();
 }
 
-// Event listeners for frequency input
+// Trigger pulse and vibration effect
+function pulseOscilloscope() {
+    let position = 0;
+    const shakeDuration = 300;
+    const shakeDistance = 10;
+    const shakeInterval = 50;
+    const shakeStartTime = Date.now();
+
+    const shakeIntervalId = setInterval(() => {
+        position = position === 0 ? shakeDistance : 0;
+        canvas.style.transform = `translateX(${position}px)`;
+
+        if (Date.now() - shakeStartTime > shakeDuration) {
+            clearInterval(shakeIntervalId);
+            canvas.style.transform = 'translateX(0)';
+        }
+    }, shakeInterval);
+
+    canvas.style.transition = "background-color 0.3s ease";
+    canvas.style.backgroundColor = 'rgba(0, 0, 255, 0.01)';
+    setTimeout(() => {
+        canvas.style.backgroundColor = 'black';
+    }, 300);
+}
+
+// Handle frequency flash effect
+function handleFrequencyFlash(frequency) {
+    if (frequencyMap[frequency] !== undefined && frequency !== previousFrequency) {
+        const flashCount = frequencyMap[frequency];
+        for (let i = 0; i < flashCount; i++) {
+            setTimeout(() => {
+                if (frequencyInput.value == frequency) {
+                    pulseOscilloscope();
+                }
+            }, i * 1000);
+        }
+        previousFrequency = frequency;
+    } else if (frequency !== previousFrequency) {
+        previousFrequency = null;
+    }
+}
+
+// Add received frequencies one at a time with a delay
+function addReceivedFrequencies() {
+    // Hide the oscilloscope, submit button, and frequency display
+    canvas.style.display = 'none';
+    submitButton.style.display = 'none';
+    frequencyInput.style.display = 'none';
+    frequencyDisplay.textContent = ''; // Clear frequency text
+
+    let index = 0;
+
+    function addNextFrequency() {
+        if (index < receivedFrequencies.length) {
+            const newItem = document.createElement('li');
+            newItem.textContent = `${receivedFrequencies[index]} Hz`;
+            frequencyList.appendChild(newItem);
+            index++;
+            setTimeout(addNextFrequency, 2000); // 2-second delay
+        } else {
+            // All frequencies added
+            passwordSection.style.display = 'block'; // Show password section after adding all
+        }
+    }
+
+    addNextFrequency();
+}
+
+// Frequency input listener
 frequencyInput.addEventListener('input', () => {
     frequency = frequencyInput.value;
-    frequencyDisplay.textContent = frequency;
+    frequencyDisplay.textContent = `${frequency} Hz`; // Update frequency text
     drawWave(frequency);
     handleFrequencyFlash(frequency);
 });
 
-// Submit button click event for frequency input
+// Submit button for broadcasting
 submitButton.addEventListener('click', () => {
     const selectedFrequency = parseInt(frequencyInput.value);
     currentOrder.push(selectedFrequency);
@@ -119,34 +144,39 @@ submitButton.addEventListener('click', () => {
     listItem.textContent = `${selectedFrequency} Hz`;
     frequencyList.appendChild(listItem);
 
-    if (currentOrder.length === correctOrder.length) {
-        let correct = true;
-        currentOrder.forEach((frequency, index) => {
-            if (correctOrder[index] !== frequency) {
-                correct = false;
+    if (currentOrder.length === correctBroadcast.length) {
+        let isCorrect = true;
+        for (let i = 0; i < correctBroadcast.length; i++) {
+            if (currentOrder[i] !== correctBroadcast[i]) {
+                isCorrect = false;
+                break;
             }
-        });
-
-        if (correct) {
-            message.textContent = "Correct sequence! You won!";
-            message.style.color = 'green';
-            passwordSection.style.display = 'block';
-        } else {
-            message.textContent = "Incorrect sequence! Try again.";
-            message.style.color = 'red';
-            frequencyList.innerHTML = '';
         }
+
+        if (isCorrect) {
+            message.textContent = "Broadcasting success! Transmition is being received!";
+            message.style.color = 'green';
+
+            // Clear the list and start adding received frequencies
+            frequencyList.innerHTML = "";
+            addReceivedFrequencies();
+        } else {
+            message.textContent = "No response! Try again.";
+            message.style.color = 'red';
+            frequencyList.innerHTML = ""; // Reset the list
+        }
+
         currentOrder = [];
     }
 });
 
-// Password submit handler
+// Password submit
 passwordSubmit.addEventListener('click', () => {
     const enteredPassword = passwordInput.value.trim().toUpperCase();
-    const correctPassword = "LUMINAR";
+    const correctPassword = "TROJAN";
 
     if (enteredPassword === correctPassword) {
-        passwordMessage.textContent = "Password correct! You unlocked the sequence!";
+        passwordMessage.textContent = "Password correct!";
         passwordMessage.style.color = 'green';
 
         const riddleText = document.createElement('p');
@@ -176,5 +206,5 @@ passwordSubmit.addEventListener('click', () => {
     }
 });
 
-// Initial draw on load
+// Initial oscilloscope draw
 drawWave(frequency);
