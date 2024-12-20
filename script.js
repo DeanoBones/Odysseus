@@ -78,7 +78,7 @@ function pulseOscilloscope() {
     }, shakeInterval);
 
     canvas.style.transition = "background-color 0.3s ease";
-    canvas.style.backgroundColor = 'rgba(0, 0, 255, 0.01)';
+    canvas.style.backgroundColor = 'rgba(0, 0, 255, 0.05)';
     setTimeout(() => {
         canvas.style.backgroundColor = 'black';
     }, 300);
