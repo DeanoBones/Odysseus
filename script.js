@@ -34,6 +34,8 @@ const receivedFrequencies = [2000, 1800, 1500, 1000, 100, 1400];
 // User-entered sequence
 let currentOrder = [];
 let previousFrequency = null;
+let isFlashing = false;  // Flag to track if we're flashing
+let currentFlashTimeouts = [];  // Array to store current flash timeouts
 
 // Draw oscilloscope wave
 function drawWave(frequency) {
@@ -86,18 +88,36 @@ function pulseOscilloscope() {
 
 // Handle frequency flash effect
 function handleFrequencyFlash(frequency) {
-    if (frequencyMap[frequency] !== undefined && frequency !== previousFrequency) {
+    if (isFlashing) {
+        currentFlashTimeouts.forEach(timeout => clearTimeout(timeout));  // Clear existing timeouts
+        currentFlashTimeouts = [];
+        isFlashing = false;
+    }
+
+    // Only flash if it's a valid frequency
+    if (frequencyMap[frequency] !== undefined) {
+        isFlashing = true;  // Mark as flashing
         const flashCount = frequencyMap[frequency];
+
+        // Set up the flash sequence
         for (let i = 0; i < flashCount; i++) {
-            setTimeout(() => {
+            const timeoutId = setTimeout(() => {
                 if (frequencyInput.value == frequency) {
                     pulseOscilloscope();
                 }
             }, i * 1000);
+            currentFlashTimeouts.push(timeoutId);  // Store the timeout
         }
-        previousFrequency = frequency;
-    } else if (frequency !== previousFrequency) {
-        previousFrequency = null;
+
+        // Final flash at the end of the sequence (change the color to white with transparency)
+        const finalTimeout = setTimeout(() => {
+            if (frequencyInput.value == frequency) {
+                pulseOscilloscope();  // Trigger the final white flash
+                canvas.style.backgroundColor = 'rgba(255, 255, 255, 0.4)';  // Set background color to white with opacity 0.1
+            }
+            isFlashing = false;  // Reset flashing after sequence
+        }, flashCount * 1000);
+        currentFlashTimeouts.push(finalTimeout);  // Store the final timeout
     }
 }
 
@@ -154,7 +174,7 @@ submitButton.addEventListener('click', () => {
         }
 
         if (isCorrect) {
-            message.textContent = "Broadcasting success! Transmition is being received!";
+            message.textContent = "Broadcasting success! Transmission is being received!";
             message.style.color = 'green';
 
             // Clear the list and start adding received frequencies
