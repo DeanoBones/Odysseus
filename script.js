@@ -129,6 +129,13 @@ function addReceivedFrequencies() {
     frequencyInput.style.display = 'none';
     frequencyDisplay.textContent = ''; // Clear frequency text
 
+    // Also hide the "Oscilloscope Frequency" and "Frequency: Hz" text
+    const oscilloscopeTitle = document.querySelector('h2');
+    const frequencyLabel = document.querySelector('p');
+
+    oscilloscopeTitle.style.display = 'none';  // Hide the "Oscilloscope Frequency" text
+    frequencyLabel.style.display = 'none';    // Hide the "Frequency: Hz" text
+
     let index = 0;
 
     function addNextFrequency() {
@@ -139,13 +146,14 @@ function addReceivedFrequencies() {
             index++;
             setTimeout(addNextFrequency, 2000); // 2-second delay
         } else {
-            // All frequencies added
+            // All frequencies added, show password section
             passwordSection.style.display = 'block'; // Show password section after adding all
         }
     }
 
     addNextFrequency();
 }
+
 
 // Frequency input listener
 frequencyInput.addEventListener('input', () => {
