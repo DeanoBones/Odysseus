@@ -7,7 +7,6 @@ const frequencyDisplay = document.getElementById('frequencyDisplay');
 const frequencyList = document.getElementById('frequencyList');
 const passwordSection = document.getElementById('passwordSection');
 const passwordInput = document.getElementById('passwordInput');
-const passwordSubmit = document.getElementById('passwordSubmit');
 const passwordMessage = document.getElementById('passwordMessage');
 
 // Oscilloscope settings
@@ -113,7 +112,7 @@ function handleFrequencyFlash(frequency) {
         const finalTimeout = setTimeout(() => {
             if (frequencyInput.value == frequency) {
                 pulseOscilloscope();  // Trigger the final white flash
-                canvas.style.backgroundColor = 'rgba(255, 255, 255, 0.4)';  // Set background color to white with opacity 0.1
+                canvas.style.backgroundColor = 'rgba(255, 255, 255, 0.5)';  // Set background color to white with opacity 0.1
             }
             isFlashing = false;  // Reset flashing after sequence
         }, flashCount * 1000);
@@ -144,7 +143,7 @@ function addReceivedFrequencies() {
             newItem.textContent = `${receivedFrequencies[index]} Hz`;
             frequencyList.appendChild(newItem);
             index++;
-            setTimeout(addNextFrequency, 2000); // 2-second delay
+            setTimeout(addNextFrequency, 5000); // 5-second delay
         } else {
             // All frequencies added, show password section
             passwordSection.style.display = 'block'; // Show password section after adding all
@@ -153,7 +152,6 @@ function addReceivedFrequencies() {
 
     addNextFrequency();
 }
-
 
 // Frequency input listener
 frequencyInput.addEventListener('input', () => {
@@ -182,7 +180,7 @@ submitButton.addEventListener('click', () => {
         }
 
         if (isCorrect) {
-            message.textContent = "Broadcasting success! Transmission is being received!";
+            message.textContent = "Connection estAblishEd Successfully. incoming trAnsmission Received!";
             message.style.color = 'green';
 
             // Clear the list and start adding received frequencies
@@ -198,39 +196,42 @@ submitButton.addEventListener('click', () => {
     }
 });
 
-// Password submit
-passwordSubmit.addEventListener('click', () => {
-    const enteredPassword = passwordInput.value.trim().toUpperCase();
-    const correctPassword = "TROJAN";
+// Password input listener for Enter key
+passwordInput.addEventListener('keypress', (event) => {
+    // Check if Enter (key code 13) is pressed
+    if (event.key === 'Enter') {
+        const enteredPassword = passwordInput.value.trim().toUpperCase();
+        const correctPassword = "TROJAN";
 
-    if (enteredPassword === correctPassword) {
-        passwordMessage.textContent = "Password correct!";
-        passwordMessage.style.color = 'green';
+        if (enteredPassword === correctPassword) {
+            passwordMessage.textContent = "Access Granted!";
+            passwordMessage.style.color = 'green';
 
-        const riddleText = document.createElement('p');
-        riddleText.textContent = "I stand still, yet I move. I carry secrets inside. Find me where I neigh in silence.";
-        riddleText.style.marginTop = '20px';
-        riddleText.style.color = 'white';
-        passwordSection.appendChild(riddleText);
+            const riddleText = document.createElement('p');
+            riddleText.textContent = "I stand still, yet I move. I carry secrets inside. Find me where I neigh in silence.";
+            riddleText.style.marginTop = '20px';
+            riddleText.style.color = 'green';
+            passwordSection.appendChild(riddleText);
 
-        const continueButton = document.createElement('button');
-        continueButton.textContent = "Continue";
-        continueButton.style.marginTop = '10px';
-        continueButton.style.padding = '10px 20px';
-        continueButton.style.fontSize = '1rem';
-        continueButton.style.cursor = 'pointer';
-        continueButton.style.borderRadius = '5px';
-        continueButton.style.backgroundColor = 'lime';
-        continueButton.style.color = 'black';
+            const continueButton = document.createElement('button');
+            continueButton.textContent = "open.terminal.exe";
+            continueButton.style.marginTop = '10px';
+            continueButton.style.padding = '10px 20px';
+            continueButton.style.fontSize = '1rem';
+            continueButton.style.cursor = 'pointer';
+            continueButton.style.borderRadius = '5px';
+            continueButton.style.backgroundColor = 'lime';
+            continueButton.style.color = 'black';
 
-        continueButton.addEventListener('click', () => {
-            window.location.href = "https://deanobones.github.io/Odysseustrix/";
-        });
+            continueButton.addEventListener('click', () => {
+                window.location.href = "https://deanobones.github.io/Odysseustrix/"; // Redirect after password success
+            });
 
-        passwordSection.appendChild(continueButton);
-    } else {
-        passwordMessage.textContent = "Incorrect password. Try again!";
-        passwordMessage.style.color = 'red';
+            passwordSection.appendChild(continueButton);
+        } else {
+            passwordMessage.textContent = "Incorrect Translation. Try again!";
+            passwordMessage.style.color = 'red';
+        }
     }
 });
 
