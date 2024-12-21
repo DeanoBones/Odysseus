@@ -28,7 +28,7 @@ const frequencyMap = {
 const correctBroadcast = [1200, 2100, 1300, 900, 1400, 100];
 
 // New frequencies to display upon success
-const receivedFrequencies = [2000, 1800, 1500, 1000, 100, 1400];
+const receivedFrequencies = [1900, 1700, 1400, 900, 2600, 1300];
 
 // User-entered sequence
 let currentOrder = [];
@@ -180,7 +180,7 @@ submitButton.addEventListener('click', () => {
         }
 
         if (isCorrect) {
-            message.textContent = "Connection estAblishEd Successfully. incoming trAnsmission Received!";
+            message.textContent = "Connection estAblishEd Successfully incoming trAnsmission Received +!";
             message.style.color = 'green';
 
             // Clear the list and start adding received frequencies
