@@ -108,15 +108,7 @@ function handleFrequencyFlash(frequency) {
             currentFlashTimeouts.push(timeoutId);  // Store the timeout
         }
 
-        // Final flash at the end of the sequence (change the color to white with transparency)
-        const finalTimeout = setTimeout(() => {
-            if (frequencyInput.value == frequency) {
-                pulseOscilloscope();  // Trigger the final white flash
-                canvas.style.backgroundColor = 'rgba(255, 255, 255, 0.5)';  // Set background color to white with opacity 0.1
-            }
-            isFlashing = false;  // Reset flashing after sequence
-        }, flashCount * 1000);
-        currentFlashTimeouts.push(finalTimeout);  // Store the final timeout
+        
     }
 }
 
@@ -208,13 +200,13 @@ passwordInput.addEventListener('keypress', (event) => {
             passwordMessage.style.color = 'green';
 
             const riddleText = document.createElement('p');
-            riddleText.textContent = "I stand still, yet I move. I carry secrets inside. Find me where I neigh in silence.";
+            riddleText.textContent = "You may think I'm a reindeer, but I’m not quite the same, with eyes so bright, they put Rudolph to shame. A gentle pull on my tail, and power will flow, revealing the path that you’re meant to know.";
             riddleText.style.marginTop = '20px';
             riddleText.style.color = 'green';
             passwordSection.appendChild(riddleText);
 
             const continueButton = document.createElement('button');
-            continueButton.textContent = "open.terminal.exe";
+            continueButton.textContent = "open.exe";
             continueButton.style.marginTop = '10px';
             continueButton.style.padding = '10px 20px';
             continueButton.style.fontSize = '1rem';
