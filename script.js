@@ -200,7 +200,7 @@ passwordInput.addEventListener('keypress', (event) => {
             passwordMessage.style.color = 'green';
 
             const riddleText = document.createElement('p');
-            riddleText.textContent = "You may think I'm a reindeer, but I’m not quite the same, with eyes so bright, they put Rudolph to shame. A gentle pull on my tail, and power will flow, revealing the path that you’re meant to know.";
+            riddleText.textContent = "Hidden behind where you often take a seat, I wait in silence, my task incomplete. A gentle pull on my tail, and power will flow—find me to reveal the path you’re meant to know.";
             riddleText.style.marginTop = '20px';
             riddleText.style.color = 'green';
             passwordSection.appendChild(riddleText);
