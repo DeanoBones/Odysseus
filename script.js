@@ -200,7 +200,7 @@ passwordInput.addEventListener('keypress', (event) => {
             passwordMessage.style.color = 'green';
 
             const riddleText = document.createElement('p');
-            riddleText.textContent = "Hidden behind where you often take a seat, I wait in silence, my task incomplete. A gentle pull on my tail, and power will flow—find me to reveal the path you’re meant to know.";
+            riddleText.textContent = "Hidden behind where you often take a seat, I wait in the shadows, my task incomplete. A gentle pull on my tail, and you'll find guidance, Search for me where I neigh in silence.";
             riddleText.style.marginTop = '20px';
             riddleText.style.color = 'green';
             passwordSection.appendChild(riddleText);
